@@ -399,7 +399,7 @@ fi
 function check_default_virtual_machine() {
 print_dimly "stage: check_default_virtual_machine"
 echo -e "\nChecking that VirtualBox starts the virtual machine without errors."
-if [[ -n $(VBoxManage startvm "${vm_name}" 2>&1 1>/dev/null) ]]; then
+if [[ -n $(VBoxManage startvm "${vm_name}" --type separate 2>&1 1>/dev/null) ]]; then
     echo -e "Error while starting the virtual machine.\nExiting."
     exit
 fi
@@ -807,7 +807,7 @@ echo -e "\nStarting virtual machine \"${vm_name}\".
 This should take a couple of minutes. If booting fails, exit the script by
 pressing CTRL-C then see the documentation for information about applying
 different CPU profiles in the section ${highlight_color}CPU profiles and CPUID settings${default_color}."
-( VBoxManage startvm "${vm_name}" >/dev/null 2>&1 )
+( VBoxManage startvm "${vm_name}" --type separate >/dev/null 2>&1 )
 echo -e "\nUntil the script completes, please do not manually interact with\nthe virtual machine."
 [[ -z "${kscd}" ]] && declare_scancode_dict
 prompt_lang_utils_terminal
@@ -952,7 +952,7 @@ if [[ -n $(
                --type dvddrive --medium "${vm_name}_populate_macos_target_disk.viso" >/dev/null
           ) ]]; then echo "Could not attach \"${vm_name}_populate_macos_target_disk.viso\". Exiting."; exit; fi
 echo "The VM will boot from the populated installer base system virtual disk."
-( VBoxManage startvm "${vm_name}" >/dev/null 2>&1 )
+( VBoxManage startvm "${vm_name}" --type separate >/dev/null 2>&1 )
 [[ -z "${kscd}" ]] && declare_scancode_dict
 prompt_lang_utils_terminal
 add_another_terminal
